@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
@@ -26,13 +28,14 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validededRequest = $request->validated();
+        $request->user()?->fill(is_array($validededRequest) ? $validededRequest : []);
 
-        if ($request->user()->isDirty('email')) {
+        if ($request->user()?->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $request->user()?->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -50,7 +53,7 @@ class ProfileController extends Controller
 
         Auth::logout();
 
-        $user->delete();
+        $user?->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
