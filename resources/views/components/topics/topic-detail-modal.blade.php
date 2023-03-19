@@ -1,10 +1,10 @@
-@props(['id' => null, 'maxWidth' => null, 'topic' => null])
+@props(['id' => null, 'maxWidth' => null, 'topic'])
 
 <x-modal :id="$id" :maxWidth="$maxWidth" wire:model="detailModalOpen" {{ $attributes }}>
 
     <div class="overflow-hidden bg-white shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-base font-semibold leading-6 text-gray-900">{{ $topic->title }}</h3>
+            <h3 class="text-base font-semibold leading-6 text-gray-900">{{ $topic?->title }}</h3>
         </div>
         <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
             <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
@@ -26,7 +26,7 @@
                 </div> --}}
                 <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">About</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ $topic->description }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900">{{ $topic?->description }}</dd>
                 </div>
 
                 {{-- Links --}}
