@@ -44,6 +44,7 @@ class TopicPage extends Component
     public function mount()
     {
         $this->topics = Topic::all();
+        $this->topic = $this->topics->first();
     }
     public function render()
     {
@@ -53,8 +54,7 @@ class TopicPage extends Component
 
     public function showTopicDetail(Topic $topic)
     {
-
         $this->topic = $topic;
-        //$this->detailModalOpen = true;
+        $this->detailModalOpen = true;
     }
 }

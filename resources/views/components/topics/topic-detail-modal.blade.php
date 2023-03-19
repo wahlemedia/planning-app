@@ -37,7 +37,7 @@
 
                             <li class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                                 <div class="flex w-0 flex-1 items-center">
-                                    {{-- <x-heroicon-o-arrow-top class="h-5 w-5 flex-shrink-0 text-gray-400" /> --}}
+                                    <x-heroicon-o-link class="h-5 w-5 flex-shrink-0 text-gray-400" />
                                     <span class="ml-2 w-0 flex-1 truncate">External Link</span>
                                 </div>
                                 <div class="ml-4 flex-shrink-0">
@@ -56,7 +56,7 @@
 
                             <li class="flex items-center justify-between py-3 pl-3 pr-4 text-sm">
                                 <div class="flex w-0 flex-1 items-center">
-                                    <x-heroicon-o-link class="h-5 w-5 flex-shrink-0 text-gray-400" />
+                                    <x-heroicon-o-document class="h-5 w-5 flex-shrink-0 text-gray-400" />
                                     <span class="ml-2 w-0 flex-1 truncate">coverletter_back_end_developer.pdf</span>
                                 </div>
                                 <div class="ml-4 flex-shrink-0">

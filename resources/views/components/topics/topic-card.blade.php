@@ -1,6 +1,8 @@
 <li class="col-span-1">
-    <button class="divide-y divide-gray-200 rounded-lg bg-white shadow w-full hover:bg-gray-50"
-        wire:click="showTopicDetail('{{ $topic->id }}')" wire:key="topic-card-{{ $topic->id }}">
+    <button class="divide-y divide-gray-200 rounded-lg bg-white shadow w-full hover:bg-gray-50" 
+    wire:click="showTopicDetail('{{ $topic->id }}')" 
+        {{-- wire:click="$set('topicId', '{{ $topic->id }}')"  --}}
+        wire:key="topic-card-{{ $topic->id }}">
         <div class="flex w-full items-center justify-between space-x-6 p-6">
             <div class="flex-1 truncate">
                 <div class="flex items-center justify-between">
