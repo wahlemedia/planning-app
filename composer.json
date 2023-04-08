@@ -13,6 +13,7 @@
         "christophrumpel/missing-livewire-assertions": "^1.0",
         "filament/filament": "^2.17",
         "filament/spatie-laravel-media-library-plugin": "^2.0",
+        "filament/spatie-laravel-tags-plugin": "^2.0",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^10.3.3",
         "laravel/jetstream": "^3.0",

@@ -14,6 +14,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\SpatieTagsInput;
+use Filament\Tables\Columns\SpatieTagsColumn;
+use Spatie\Tags\Tag;
 
 class TopicResource extends Resource
 {
@@ -77,6 +80,9 @@ class TopicResource extends Resource
             Tables\Columns\TextColumn::make('title')
                 ->searchable()
                 ->sortable(),
+            SpatieTagsColumn::make('tags')->type('topics')
+                ->searchable()
+                ->sortable(),
         ];
     }
 
@@ -86,16 +92,36 @@ class TopicResource extends Resource
             Forms\Components\TextInput::make('title')
                 ->autofocus()
                 ->required()
-                ->placeholder('Title')
-                ->columnSpan('full')
-                ->rule('unique:topics,title'),
+                ->placeholder('Title'),
+            SpatieTagsInput::make('tags')->suggestions(
+                Tag::withType('topics')->pluck('name')->toArray()
+            )->type('topics'),
             Forms\Components\Textarea::make('description')
                 ->placeholder('Description')
                 ->columnSpan('full')
                 ->rows(5),
+            Forms\Components\Repeater::make('links')
+                ->schema([
+                    Forms\Components\TextInput::make('url')->required()
+                        ->columnSpan(2)
+                        ->prefix('https://'),
+                    Forms\Components\TextInput::make('name')
+                        ->columnSpan(2),
+                    Forms\Components\Select::make('target')
+                        ->options([
+                            '_self' => 'Same window',
+                            '_blank' => 'New window',
+                        ])
+                        ->default('_blank')
+                        ->required(),
+                ])
+                ->createItemButtonLabel('Add Link')
+                ->columns(5)
+                ->columnSpan('full'),
             SpatieMediaLibraryFileUpload::make('attachments')
                 ->multiple()
                 ->collection('files')
+                ->columnSpan('full')
                 ->enableReordering(),
         ];
     }

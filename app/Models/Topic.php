@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\Tags\HasTags;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Topic extends Model implements HasMedia
@@ -17,6 +18,7 @@ class Topic extends Model implements HasMedia
     use HasUuids;
     use SoftDeletes;
     use InteractsWithMedia;
+    use HasTags;
 
     /**
      * The attributes that are mass assignable.
@@ -26,5 +28,15 @@ class Topic extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
+        'links'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'links' => 'array'
     ];
 }
