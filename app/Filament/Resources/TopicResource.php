@@ -13,6 +13,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class TopicResource extends Resource
 {
@@ -92,6 +93,10 @@ class TopicResource extends Resource
                 ->placeholder('Description')
                 ->columnSpan('full')
                 ->rows(5),
+            SpatieMediaLibraryFileUpload::make('attachments')
+                ->multiple()
+                ->collection('files')
+                ->enableReordering(),
         ];
     }
 }
