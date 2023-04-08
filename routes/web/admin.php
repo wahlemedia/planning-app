@@ -9,6 +9,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/dashboard', DashboardController::class)->name('dashboard.index');
-Route::get('/topics', ListTopics::class)->name('topics.index');
-Route::get('/topics/{topic}', ListTopics::class)->name('topics.edit');
+// Route::get('/dashboard', DashboardController::class)->name('dashboard.index');
+// Route::get('/topics', ListTopics::class)->name('topics.index');
+// Route::get('/topics/{topic}', ListTopics::class)->name('topics.edit');
