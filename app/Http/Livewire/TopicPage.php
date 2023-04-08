@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Livewire;
 
 use App\Models\Topic;
@@ -8,7 +10,6 @@ use Illuminate\Support\Collection;
 
 class TopicPage extends Component
 {
-
     /**
      * The component's listeners.
      *
@@ -35,7 +36,7 @@ class TopicPage extends Component
 
     /**
      * Modal open
-     * 
+     *
      * @var bool
      */
     public bool $detailModalOpen = false;

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicResource\Pages;
-use App\Filament\Resources\TopicResource\RelationManagers;
 use App\Models\Topic;
 use Filament\Forms;
 use Filament\Resources\Form;

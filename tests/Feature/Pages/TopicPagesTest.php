@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Models\Topic;
 use Livewire\Livewire;
 
-use function Pest\Laravel\get;
 use App\Http\Livewire\TopicPage;
+
+use function Pest\Laravel\get;
 
 it('returns a 200 with topic page', function () {
     // Act & Assert

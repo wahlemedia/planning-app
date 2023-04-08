@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\TopicResource\Pages;
 
 use App\Filament\Resources\TopicResource;
