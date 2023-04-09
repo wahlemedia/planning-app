@@ -120,7 +120,6 @@ class TopicResource extends Resource
                 ->columnSpan('full'),
             SpatieMediaLibraryFileUpload::make('attachments')
                 ->multiple()
-                ->collection('files')
                 ->columnSpan('full')
                 ->enableReordering(),
         ];
