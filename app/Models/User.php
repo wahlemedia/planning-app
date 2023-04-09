@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable  implements FilamentUser
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
     use HasFactory;

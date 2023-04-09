@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Models\Topic;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Topic>
@@ -31,7 +30,6 @@ class TopicFactory extends Factory
      */
     public function withLinks(int $count = 1): static
     {
-
         $links = [];
 
         for ($i = 0; $i < $count; $i++) {

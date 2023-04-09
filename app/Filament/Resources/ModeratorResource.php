@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModeratorResource\Pages;
-use App\Filament\Resources\ModeratorResource\RelationManagers;
 use App\Models\Moderator;
 use Filament\Forms;
 use Filament\Resources\Form;

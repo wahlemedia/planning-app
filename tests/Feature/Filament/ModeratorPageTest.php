@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 
 use App\Models\User;
 use App\Models\Moderator;
-use function Pest\Laravel\get;
-use function Pest\Laravel\actingAs;
-use function Pest\Livewire\livewire;
 use Filament\Pages\Actions\DeleteAction;
 use App\Filament\Resources\ModeratorResource;
 
+use function Pest\Laravel\get;
+use function Pest\Laravel\actingAs;
+use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -22,7 +24,7 @@ it('can render page', function () {
         ->assertSuccessful();
 });
 
-it('can list moderaotrs', function () {
+it('can list moderators', function () {
     // Arrange
     $moderators = Moderator::factory()->count(10)->create();
 
