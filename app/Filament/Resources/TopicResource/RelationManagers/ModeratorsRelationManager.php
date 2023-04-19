@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\TopicResource\RelationManagers;
 
 use Filament\Forms;
@@ -7,9 +9,7 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Tables\Actions\AttachAction;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ModeratorResource;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class ModeratorsRelationManager extends RelationManager
