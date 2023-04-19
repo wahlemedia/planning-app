@@ -87,6 +87,13 @@ class ModeratorResource extends Resource
                 ->required(),
             Forms\Components\TextInput::make('email')
                 ->email(),
+            Forms\Components\RichEditor::make('notes')
+                ->placeholder('Notes about this moderator')
+                ->disableToolbarButtons([
+                    'attachFiles',
+                    'codeBlock',
+                ])
+                ->columnSpan('full')
         ];
     }
 
