@@ -33,32 +33,30 @@ class TopicsRelationManager extends RelationManager
         return $table
             ->columns([
                 ...TopicResource::getTable(),
-                Tables\Columns\TextColumn::make('pivot.held_at')
-                    ->label('Held At')
-                    ->dateTime('H:i:s d.m.Y')
-                    ->searchable()
-                    ->sortable(),
+                // Tables\Columns\TextColumn::make('pivot.held_at')
+                //     ->label('Held At')
+                //     ->dateTime('H:i:s d.m.Y')
+                //     ->searchable()
+                //     ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
-                Tables\Actions\AttachAction::make()
-                    ->form(fn (AttachAction $action): array => [
-                        $action->getRecordSelect(),
-                        Forms\Components\DateTimePicker::make('held_at')
-                            ->required(),
-                    ]),
+                // Tables\Actions\AttachAction::make()
+                //     ->form(fn (AttachAction $action): array => [
+                //         $action->getRecordSelect(),
+                //         Forms\Components\DateTimePicker::make('held_at')
+                //             ->required(),
+                //     ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\DetachBulkAction::make(),
             ]);
     }
 }

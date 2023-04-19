@@ -23,6 +23,11 @@ class ModeratorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+
     protected static function getNavigationGroup(): ?string
     {
         return __('filament.navigation.groups.program');
@@ -59,7 +64,7 @@ class ModeratorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            TopicsRelationManager::class,
+            //  TopicsRelationManager::class,
         ];
     }
 
@@ -106,10 +111,10 @@ class ModeratorResource extends Resource
             Tables\Columns\TextColumn::make('email')
                 ->searchable()
                 ->sortable(),
-            Tables\Columns\TextColumn::make('topics_count')
-                ->counts('topics')
-                ->searchable()
-                ->sortable(),
+            // Tables\Columns\TextColumn::make('topics_count')
+            //     ->counts('topics')
+            //     ->searchable()
+            //     ->sortable(),
 
         ];
     }

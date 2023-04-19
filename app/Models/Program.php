@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Collection;
-use Spatie\Tags\HasTags;
-use Spatie\MediaLibrary\HasMedia;
+use App\Enums\ProgramStateEnum;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Topic extends Model implements HasMedia
+class Program extends Model
 {
     use HasFactory;
     use HasUuids;
     use SoftDeletes;
-    use InteractsWithMedia;
-    use HasTags;
+
 
     /**
      * The attributes that are mass assignable.
@@ -29,8 +25,9 @@ class Topic extends Model implements HasMedia
      */
     protected $fillable = [
         'title',
+        'slug',
         'description',
-        'links'
+        'state',
     ];
 
     /**
@@ -39,22 +36,11 @@ class Topic extends Model implements HasMedia
      * @var array<string, string>
      */
     protected $casts = [
-        'links' => 'array'
+        'state' => ProgramStateEnum::class,
     ];
 
-
-    /**
-     * Get all the moderators that helt this topic.
-     */
-    public function moderators(): Collection
+    public function items(): HasMany
     {
-        return $this->programItems->each->moderator
-            ->map(fn ($i) => $i->moderators)
-            ->flatten();
-    }
-
-    public function programItems(): HasMany
-    {
-        return $this->HasMany(ProgramItem::class);
+        return $this->hasMany(ProgramItem::class);
     }
 }

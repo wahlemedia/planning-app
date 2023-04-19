@@ -12,14 +12,18 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('moderators', function (Blueprint $table) {
+        Schema::create('programs', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('name');
-            $table->string('email')
-                ->unique()
+
+            $table->string('title');
+            $table->string('slug')
+                ->unique();
+
+            $table->string('description')
                 ->nullable();
-            $table->text('notes')
-                ->nullable();
+
+            $table->string('state')
+                ->default('draft');
 
             $table->softDeletes();
             $table->timestamps();
@@ -31,6 +35,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('moderators');
+        Schema::dropIfExists('programs');
     }
 };

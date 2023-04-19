@@ -8,13 +8,12 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
-use Filament\Tables\Actions\AttachAction;
 use App\Filament\Resources\ModeratorResource;
 use Filament\Resources\RelationManagers\RelationManager;
 
 class ModeratorsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'moderators';
+    protected static string $relationship = 'programItems.moderators';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -32,34 +31,20 @@ class ModeratorsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                ...ModeratorResource::getTable(),
-                Tables\Columns\TextColumn::make('pivot.held_at')
-                    ->label('Held At')
-                    ->dateTime('H:i:s d.m.Y')
-                    ->searchable()
-                    ->sortable(),
-
+                // ...ModeratorResource::getTable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
-                Tables\Actions\AttachAction::make()
-                    ->form(fn (AttachAction $action): array => [
-                        $action->getRecordSelect(),
-                        Forms\Components\DateTimePicker::make('held_at')
-                            ->required(),
-                    ]),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\DetachAction::make(),
+                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\DetachBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

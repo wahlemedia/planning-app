@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Moderator extends Model
 {
@@ -27,10 +28,16 @@ class Moderator extends Model
     ];
 
 
-    public function topics(): BelongsToMany
+    /**
+     * Get all the topics that this moderator held.
+     */
+    public function topics(): HasManyThrough
     {
-        return $this->belongsToMany(Topic::class)
-            ->withPivot('held_at')
-            ->withTimestamps();
+        return $this->hasManyThrough(Topic::class, ProgramItem::class);
+    }
+
+    public function programItems(): HasMany
+    {
+        return $this->HasMany(ProgramItem::class);
     }
 }

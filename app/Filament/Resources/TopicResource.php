@@ -29,6 +29,8 @@ class TopicResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -72,7 +74,7 @@ class TopicResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ModeratorsRelationManager::class,
+            // ModeratorsRelationManager::class,
         ];
     }
 
@@ -94,11 +96,20 @@ class TopicResource extends Resource
                 ->searchable()
                 ->toggleable()
                 ->sortable(),
-            Tables\Columns\TextColumn::make('moderators_count')
-                ->counts('moderators')
-                ->searchable()
-                ->toggleable()
-                ->sortable(),
+            // Tables\Columns\TextColumn::make('moderators_count')
+            //     ->default(function (Topic $record) {
+            //         return $record
+            //             ->programItems
+            //             ->each
+            //             ->moderators
+            //             ->map(fn ($i) => $i->moderators)
+            //             ->flatten()
+            //             ->count();
+            //     })
+            //     // ->default(fn (Topic $record) => $record->moderators()->count())
+            //     ->searchable()
+            //     ->toggleable()
+            //     ->sortable(),
         ];
     }
 
@@ -116,10 +127,13 @@ class TopicResource extends Resource
                         SpatieTagsInput::make('tags')->suggestions(
                             Tag::withType('topics')->pluck('name')->toArray()
                         )->type('topics'),
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
                             ->placeholder('Description')
-                            ->columnSpan('full')
-                            ->rows(5),
+                            ->disableToolbarButtons([
+                                'attachFiles',
+                                'codeBlock',
+                            ])
+                            ->columnSpan('full'),
                     ]
                 )->columns(2),
 
