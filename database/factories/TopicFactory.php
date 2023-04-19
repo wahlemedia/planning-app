@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Topic;
+use App\Models\Moderator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -64,5 +65,10 @@ class TopicFactory extends Factory
                     ->toMediaCollection('default');
             }
         });
+    }
+
+    public function withModerators(int $count = 1): static
+    {
+        return $this->has(Moderator::factory()->count($count));
     }
 }

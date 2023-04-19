@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Moderator extends Model
 {
@@ -24,4 +25,12 @@ class Moderator extends Model
         'name',
         'email',
     ];
+
+
+    public function topics(): BelongsToMany
+    {
+        return $this->belongsToMany(Topic::class)
+            ->withPivot('held_at')
+            ->withTimestamps();
+    }
 }

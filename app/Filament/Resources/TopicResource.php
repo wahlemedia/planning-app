@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicResource\Pages;
+use App\Filament\Resources\TopicResource\RelationManagers\ModeratorsRelationManager;
 use App\Models\Topic;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -62,7 +63,16 @@ class TopicResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageTopics::route('/'),
+            'index' => Pages\ListTopics::route('/'),
+            'create' => Pages\CreateTopic::route('/create'),
+            'edit' => Pages\EditTopic::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            ModeratorsRelationManager::class,
         ];
     }
 
@@ -82,6 +92,12 @@ class TopicResource extends Resource
                 ->sortable(),
             SpatieTagsColumn::make('tags')->type('topics')
                 ->searchable()
+                ->toggleable()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('moderators_count')
+                ->counts('moderators')
+                ->searchable()
+                ->toggleable()
                 ->sortable(),
         ];
     }
@@ -89,39 +105,50 @@ class TopicResource extends Resource
     public static function getForm(): array
     {
         return [
-            Forms\Components\TextInput::make('title')
-                ->autofocus()
-                ->required()
-                ->placeholder('Title'),
-            SpatieTagsInput::make('tags')->suggestions(
-                Tag::withType('topics')->pluck('name')->toArray()
-            )->type('topics'),
-            Forms\Components\Textarea::make('description')
-                ->placeholder('Description')
-                ->columnSpan('full')
-                ->rows(5),
-            Forms\Components\Repeater::make('links')
+
+            Forms\Components\Card::make()
+                ->schema(
+                    [
+                        Forms\Components\TextInput::make('title')
+                            ->autofocus()
+                            ->required()
+                            ->placeholder('Title'),
+                        SpatieTagsInput::make('tags')->suggestions(
+                            Tag::withType('topics')->pluck('name')->toArray()
+                        )->type('topics'),
+                        Forms\Components\Textarea::make('description')
+                            ->placeholder('Description')
+                            ->columnSpan('full')
+                            ->rows(5),
+                    ]
+                )->columns(2),
+
+            Forms\Components\Section::make('Additional Resources')
+                ->description('Add additional resources about this topic')
                 ->schema([
-                    Forms\Components\TextInput::make('url')->required()
-                        ->columnSpan(2)
-                        ->prefix('https://'),
-                    Forms\Components\TextInput::make('name')
-                        ->columnSpan(2),
-                    Forms\Components\Select::make('target')
-                        ->options([
-                            '_self' => 'Same window',
-                            '_blank' => 'New window',
+                    Forms\Components\Repeater::make('links')
+                        ->schema([
+                            Forms\Components\TextInput::make('url')->required()
+                                ->columnSpan(2)
+                                ->prefix('https://'),
+                            Forms\Components\TextInput::make('name')
+                                ->columnSpan(2),
+                            Forms\Components\Select::make('target')
+                                ->options([
+                                    '_self' => 'Same window',
+                                    '_blank' => 'New window',
+                                ])
+                                ->default('_blank')
+                                ->required(),
                         ])
-                        ->default('_blank')
-                        ->required(),
+                        ->createItemButtonLabel('Add Link')
+                        ->columns(5)
+                        ->columnSpan('full'),
+                    SpatieMediaLibraryFileUpload::make('attachments')
+                        ->multiple()
+                        ->columnSpan('full')
+                        ->enableReordering(),
                 ])
-                ->createItemButtonLabel('Add Link')
-                ->columns(5)
-                ->columnSpan('full'),
-            SpatieMediaLibraryFileUpload::make('attachments')
-                ->multiple()
-                ->columnSpan('full')
-                ->enableReordering(),
         ];
     }
 }

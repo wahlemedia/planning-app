@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModeratorResource\Pages;
+use App\Filament\Resources\ModeratorResource\RelationManagers\TopicsRelationManager;
 use App\Models\Moderator;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -58,7 +59,7 @@ class ModeratorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TopicsRelationManager::class,
         ];
     }
 
@@ -98,6 +99,11 @@ class ModeratorResource extends Resource
             Tables\Columns\TextColumn::make('email')
                 ->searchable()
                 ->sortable(),
+            Tables\Columns\TextColumn::make('topics_count')
+                ->counts('topics')
+                ->searchable()
+                ->sortable(),
+
         ];
     }
 }

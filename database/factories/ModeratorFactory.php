@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\Topic;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,5 +23,11 @@ class ModeratorFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
         ];
+    }
+
+
+    public function withTopics($count = 3): self
+    {
+        return $this->has(Topic::factory()->count($count));
     }
 }

@@ -6,9 +6,9 @@ namespace App\Filament\Resources\TopicResource\Pages;
 
 use App\Filament\Resources\TopicResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageTopics extends ManageRecords
+class ListTopics extends ListRecords
 {
     protected static string $resource = TopicResource::class;
 
