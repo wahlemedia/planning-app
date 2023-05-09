@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\TopicResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Components\ViewRelationManager;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use App\Filament\Resources\ModeratorResource;
-use Filament\Resources\RelationManagers\RelationManager;
 
-class ModeratorsRelationManager extends RelationManager
+class ModeratorsViewRelationManager extends ViewRelationManager
 {
-    protected static string $relationship = 'programItems.moderators';
+    protected static string $relationship = 'moderators';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -21,9 +19,7 @@ class ModeratorsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                //..
             ]);
     }
 
@@ -31,20 +27,19 @@ class ModeratorsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                // ...ModeratorResource::getTable(),
+                ...ModeratorResource::getTable(),
             ])
             ->filters([
-                //
+                // ..
             ])
             ->headerActions([
-                // Tables\Actions\CreateAction::make(),
+                // ..
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+                // ..
             ])
             ->bulkActions([
-                // Tables\Actions\DeleteBulkAction::make(),
+                // ..
             ]);
     }
 }
