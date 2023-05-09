@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ModeratorResource\Pages;
-use App\Filament\Resources\ModeratorResource\RelationManagers\TopicsRelationManager;
+use App\Filament\Resources\ModeratorResource\RelationManagers\TopicsViewRelationManager;
 use App\Models\Moderator;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -22,6 +22,11 @@ class ModeratorResource extends Resource
     protected static ?string $slug = 'program/moderators';
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 3;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
 
     protected static function getNavigationGroup(): ?string
     {
@@ -47,6 +52,7 @@ class ModeratorResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -59,7 +65,7 @@ class ModeratorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            TopicsRelationManager::class,
+            TopicsViewRelationManager::class,
         ];
     }
 
@@ -67,6 +73,7 @@ class ModeratorResource extends Resource
     {
         return [
             'index' => Pages\ListModerators::route('/'),
+            'view' => Pages\ViewModerator::route('/{record}'),
             'create' => Pages\CreateModerator::route('/create'),
             'edit' => Pages\EditModerator::route('/{record}/edit'),
         ];
@@ -106,11 +113,12 @@ class ModeratorResource extends Resource
             Tables\Columns\TextColumn::make('email')
                 ->searchable()
                 ->sortable(),
-            Tables\Columns\TextColumn::make('topics_count')
-                ->counts('topics')
-                ->searchable()
-                ->sortable(),
 
+            Tables\Columns\TextColumn::make('topics_count')
+                ->default(fn (Moderator $record) => $record->topics()->count())
+                ->searchable()
+                ->toggleable()
+                ->sortable(),
         ];
     }
 }

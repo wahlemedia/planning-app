@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TopicResource\Pages;
-use App\Filament\Resources\TopicResource\RelationManagers\ModeratorsRelationManager;
+use App\Filament\Resources\TopicResource\RelationManagers\ModeratorsViewRelationManager;
 use App\Models\Topic;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -29,6 +29,8 @@ class TopicResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,6 +42,7 @@ class TopicResource extends Resource
         return __('filament.navigation.groups.program');
     }
 
+
     public static function table(Table $table): Table
     {
         return $table
@@ -48,6 +51,7 @@ class TopicResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
@@ -64,6 +68,7 @@ class TopicResource extends Resource
     {
         return [
             'index' => Pages\ListTopics::route('/'),
+            'view' => Pages\ViewTopic::route('/{record}'),
             'create' => Pages\CreateTopic::route('/create'),
             'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
@@ -72,7 +77,7 @@ class TopicResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ModeratorsRelationManager::class,
+            ModeratorsViewRelationManager::class,
         ];
     }
 
@@ -91,11 +96,12 @@ class TopicResource extends Resource
                 ->searchable()
                 ->sortable(),
             SpatieTagsColumn::make('tags')->type('topics')
-                ->searchable()
+                // ->searchable()
                 ->toggleable()
                 ->sortable(),
+
             Tables\Columns\TextColumn::make('moderators_count')
-                ->counts('moderators')
+                ->default(fn (Topic $record) => $record->moderators()->count())
                 ->searchable()
                 ->toggleable()
                 ->sortable(),
@@ -116,10 +122,13 @@ class TopicResource extends Resource
                         SpatieTagsInput::make('tags')->suggestions(
                             Tag::withType('topics')->pluck('name')->toArray()
                         )->type('topics'),
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
                             ->placeholder('Description')
-                            ->columnSpan('full')
-                            ->rows(5),
+                            ->disableToolbarButtons([
+                                'attachFiles',
+                                'codeBlock',
+                            ])
+                            ->columnSpan('full'),
                     ]
                 )->columns(2),
 

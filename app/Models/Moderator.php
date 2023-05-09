@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -27,10 +28,22 @@ class Moderator extends Model
     ];
 
 
-    public function topics(): BelongsToMany
+    /**
+     * Get all the topics that this moderator held.
+     */
+    public function topics(): Builder
     {
-        return $this->belongsToMany(Topic::class)
-            ->withPivot('held_at')
-            ->withTimestamps();
+        return Topic::distinct()
+            ->select('topics.*')
+            ->join('program_items as pi', 'topics.id', '=', 'pi.topic_id')
+            ->join('moderator_program_item as mpi', 'pi.id', '=', 'mpi.program_item_id')
+            ->join('moderators as m', 'mpi.moderator_id', '=', 'm.id')
+            ->where('m.id', '=', $this->id);
+    }
+
+
+    public function programItems(): BelongsToMany
+    {
+        return $this->belongsToMany(ProgramItem::class);
     }
 }
