@@ -22,6 +22,12 @@ return new class () extends Migration {
             $table->string('description')
                 ->nullable();
 
+            $table->date('start_date')
+                ->nullable();
+
+            $table->date('end_date')
+                ->nullable();
+
             $table->string('state')
                 ->default('draft');
 

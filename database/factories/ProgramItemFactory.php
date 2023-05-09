@@ -22,8 +22,8 @@ class ProgramItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'starts_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
-            'ends_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'started_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'ended_at' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'topic_id' => Topic::inRandomOrder()->first() ?? Topic::factory()->create(),
         ];
     }

@@ -25,11 +25,13 @@ class ProgramFactory extends Factory
             'slug' => $this->faker->slug,
             'description' => $this->faker->text,
             'state' => $this->faker->randomElement(ProgramStateEnum::values()),
+            'start_date' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'end_date' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
         ];
     }
 
     public function withProgramItems(int $count = 5): self
     {
-        return $this->has(ProgramItem::factory()->count($count), 'items');
+        return $this->has(ProgramItem::factory()->withModerators(1)->count($count), 'items');
     }
 }

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ProgramResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProgramResource\RelationManagers\ItemsRelationManager;
+use App\Filament\Utils\FormUtils;
 
 class ProgramResource extends Resource
 {
@@ -45,19 +46,30 @@ class ProgramResource extends Resource
                             Forms\Components\Card::make()
                                 ->schema(
                                     static::getForm()
-                                )->columns(2)
+                                )->columns(2),
+                            Forms\Components\Section::make('Duration')
+                                ->schema([
+                                    Forms\Components\DatePicker::make('start_date')
+                                        ->required()
+                                        ->placeholder('Start Date'),
+                                    Forms\Components\DatePicker::make('end_date')
+                                        ->required()
+                                        ->placeholder('End Date'),
+                                ])->columns(2),
                         ])->columnSpan(2),
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Section::make('State')
                                 ->schema([
-
                                     Forms\Components\Select::make('state')
                                         ->options(ProgramStateEnum::toArray())
                                         ->default(ProgramStateEnum::DRAFT)
                                         ->required()
                                         ->placeholder('Select a state...'),
                                 ]),
+
+                            ...FormUtils::getModelDates()
+
                         ]),
                 ]
             )->columns(3);
@@ -71,6 +83,7 @@ class ProgramResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -91,6 +104,7 @@ class ProgramResource extends Resource
     {
         return [
             'index' => Pages\ListPrograms::route('/'),
+            'view' => Pages\ViewProgram::route('/{record}'),
             'create' => Pages\CreateProgram::route('/create'),
             'edit' => Pages\EditProgram::route('/{record}/edit'),
         ];
@@ -140,6 +154,7 @@ class ProgramResource extends Resource
                 ->rules(['alpha_dash'])
                 ->unique(table: Program::class, column: 'slug', ignoreRecord: true)
                 ->placeholder('Slug'),
+
 
             Forms\Components\RichEditor::make('description')
                 ->placeholder('Description ...')
