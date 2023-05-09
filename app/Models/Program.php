@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\Builder;
 
 class Program extends Model
 {
@@ -28,6 +29,8 @@ class Program extends Model
         'slug',
         'description',
         'state',
+        'start_date',
+        'end_date',
     ];
 
     /**
@@ -37,10 +40,13 @@ class Program extends Model
      */
     protected $casts = [
         'state' => ProgramStateEnum::class,
+        'start_date' => 'date',
+        'end_date' => 'date',
     ];
 
-    public function items(): HasMany
+    public function items(): HasMany | Builder
     {
-        return $this->hasMany(ProgramItem::class);
+        return $this->hasMany(ProgramItem::class)
+            ->orderBy('order_column', 'asc');
     }
 }

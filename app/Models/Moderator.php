@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Moderator extends Model
 {
@@ -31,13 +31,19 @@ class Moderator extends Model
     /**
      * Get all the topics that this moderator held.
      */
-    public function topics(): HasManyThrough
+    public function topics(): Builder
     {
-        return $this->hasManyThrough(Topic::class, ProgramItem::class);
+        return Topic::distinct()
+            ->select('topics.*')
+            ->join('program_items as pi', 'topics.id', '=', 'pi.topic_id')
+            ->join('moderator_program_item as mpi', 'pi.id', '=', 'mpi.program_item_id')
+            ->join('moderators as m', 'mpi.moderator_id', '=', 'm.id')
+            ->where('m.id', '=', $this->id);
     }
 
-    public function programItems(): HasMany
+
+    public function programItems(): BelongsToMany
     {
-        return $this->HasMany(ProgramItem::class);
+        return $this->belongsToMany(ProgramItem::class);
     }
 }

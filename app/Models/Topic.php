@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Collection;
 use Spatie\Tags\HasTags;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -46,15 +46,18 @@ class Topic extends Model implements HasMedia
     /**
      * Get all the moderators that helt this topic.
      */
-    public function moderators(): Collection
+    public function moderators(): Builder
     {
-        return $this->programItems->each->moderator
-            ->map(fn ($i) => $i->moderators)
-            ->flatten();
+        return Moderator::distinct()
+            ->join('moderator_program_item as mpi', 'moderators.id', '=', 'mpi.moderator_id')
+            ->join('program_items as pi', 'mpi.program_item_id', '=', 'pi.id')
+            ->select('moderators.*')
+            ->where('pi.topic_id', '=', $this->id);
     }
+
 
     public function programItems(): HasMany
     {
-        return $this->HasMany(ProgramItem::class);
+        return $this->hasMany(ProgramItem::class);
     }
 }
