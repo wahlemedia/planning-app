@@ -1,16 +1,9 @@
 <x-layouts.base>
 
-    <!-- Page Heading -->
-    @if (isset($header))
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {{ $header }}
-            </div>
-        </header>
-    @endif
+    <x-layouts.guest.navigation />
 
     <!-- Page Content -->
-    <main>
+    <main class="mx-auto max-w-7xl container mt-8 min-h-screen px-2 md:px-4 lg:px-6">
         {{ $slot }}
     </main>
 </x-layouts.base>

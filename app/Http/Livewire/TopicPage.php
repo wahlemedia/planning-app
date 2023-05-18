@@ -18,6 +18,9 @@ class TopicPage extends Component
     protected $listeners = [];
 
 
+    public $listView = 'grid';
+
+    public $search = '';
 
     /**
      * All topics
@@ -42,10 +45,23 @@ class TopicPage extends Component
     public bool $detailModalOpen = false;
 
 
+    protected $queryString = ['search', 'listView'];
+
+
     public function mount()
     {
-        $this->topics = Topic::all();
+        $this->topics = Topic::query()
+            ->where('title', 'like', "%{$this->search}%")
+            ->get();
     }
+
+    public function updatedSearch()
+    {
+        $this->topics = Topic::query()
+            ->where('title', 'like', "%{$this->search}%")
+            ->get();
+    }
+
     public function render()
     {
         return view('livewire.pages.topic-page')

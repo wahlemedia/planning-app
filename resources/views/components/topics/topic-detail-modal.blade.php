@@ -71,7 +71,7 @@
                             </ul>
                         </dd>
                     </div>
-                @endifs
+                @endif
             </dl>
         </div>
     </div>

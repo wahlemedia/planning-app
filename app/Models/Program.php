@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 class Program extends Model
 {
@@ -40,8 +41,8 @@ class Program extends Model
      */
     protected $casts = [
         'state' => ProgramStateEnum::class,
-        'start_date' => 'date',
-        'end_date' => 'date',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public function items(): HasMany | Builder
@@ -49,4 +50,27 @@ class Program extends Model
         return $this->hasMany(ProgramItem::class)
             ->orderBy('order_column', 'asc');
     }
+
+    public function scopeCurrent(): self
+    {
+        return $this->query()
+            ->orderBy('start_date', 'desc')
+            ->where('state', '=', ProgramStateEnum::PUBLISHED)
+            ->first();
+    }
+
+    public function scopeNext(): self
+    {
+        return $this->query()
+            ->orderBy('start_date', 'desc')
+            ->where('state', '=', ProgramStateEnum::DRAFT)
+            ->first();
+    }
+
+    // public function scopePrevious(): self
+    // {
+    //     return $this->query()
+    //         ->orderBy('start_date', 'desc')
+    //         ->where('state', '=', ProgramStateEnum::PUBLISHED);
+    // }
 }

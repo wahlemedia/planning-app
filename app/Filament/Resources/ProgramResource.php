@@ -124,6 +124,14 @@ class ProgramResource extends Resource
             Tables\Columns\TextColumn::make('title')
                 ->searchable()
                 ->sortable(),
+            Tables\Columns\TextColumn::make('start_date')
+                ->dateTime()
+                ->searchable()
+                ->sortable(),
+            Tables\Columns\TextColumn::make('end_date')
+                ->dateTime()
+                ->searchable()
+                ->sortable(),
             Tables\Columns\BadgeColumn::make('state')
                 ->colors(colors: [
                     'secondary' => 'draft',
